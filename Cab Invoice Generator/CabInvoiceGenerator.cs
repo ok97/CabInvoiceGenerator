@@ -23,11 +23,25 @@ namespace Cab_Invoice_Generator
             return Math.Max(this.totalFare, MinimumFare); //return value
         }
 
+        /* UC2:- Multiple Rides.
+                 - Invoice generator should now take in multiple rides,and Calculate Aggregate total for all.
 
-        public static void Main(string [] args) //Main method
+         */
+        public double GetMultipleRideFare(Rides[] rides) // Method to Calculate Aggregate Fare Of Multiple Rides
+        {
+            double totalRidesFare = 0.0; //store fare
+            foreach (Rides ride in rides) //itterate loop
+            {
+                totalRidesFare += this.CalculateFare(ride.RideDistance, ride.RideTime); //calculate fare
+            }
+            return totalRidesFare / rides.Length;
+        }
+
+        public static void Main(string[] args) //Main method
         {
             Console.WriteLine("Welcome Cab Invoice Generator");
             Console.ReadLine();
         }
     }
 }
+

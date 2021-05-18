@@ -1,8 +1,10 @@
 using NUnit.Framework;
 using Cab_Invoice_Generator;
+using System;
+
 namespace CabInvoiceGeneratorTest
 {
-     class CabInvoiceGeneratorTest
+    class CabInvoiceGeneratorTest
     {
         private CabInvoiceGenerator cabInvoiceGenerator;
 
@@ -13,26 +15,57 @@ namespace CabInvoiceGeneratorTest
         }
         /* UC1.1:-  Test Method for calculating fare when fare is greater than minimum fare.
          */
-        [Test] 
+        [Test]
         public void GivenDistanceAndTime_FareGreaterThanMinimumFareShouldReturnFare() //create method to calculate greater than minimum fare
         {
-            double distance = 10.0; //declare distance veriable and value  // totalFare = (distance * CostPerKilometer) + (time * CostPerMinute);
-            double time = 10;    //declare time veriable and value    // (10.0 * 10.0) + (10 * 1.0)= 110
-            double expected = 110; //total fare
-            double totalFare = this.cabInvoiceGenerator.CalculateFare(distance, time); //call method and passing value
-            Assert.AreEqual(expected, totalFare); //check equal or not
+            try
+            {
+                double distance = 10.0; //declare distance veriable and value  // totalFare = (distance * CostPerKilometer) + (time * CostPerMinute);
+                double time = 10;    //declare time veriable and value    // (10.0 * 10.0) + (10 * 1.0)= 110
+                double expected = 110; //total fare
+                double totalFare = this.cabInvoiceGenerator.CalculateFare(distance, time); //call method and passing value
+                Assert.AreEqual(expected, totalFare); //check equal or not
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex.Message);
+            }
         }
 
         /*UC1.2:- Test Method for calculating fare when fare is less than minimum fare.
          */
-        [Test] 
+        [Test]
         public void GivenDistanceAndTime_WhenTotalFareIsLessThanMinimumFare_ShouldReturnMinimumFare() //create method to print minimum fare
         {
-            double distance = 0.1;
-            double time = 1;             // (0.1 * 10.0) + (1 * 1.0)=2
-           double MinimumFare=5.0;      //total fare
-            double totalFare = this.cabInvoiceGenerator.CalculateFare(distance, time);  //call method and passing value
-            Assert.AreEqual(MinimumFare, totalFare); // check equal or not
+            try
+            {
+                double distance = 0.1;
+                double time = 1;             // (0.1 * 10.0) + (1 * 1.0)=2
+                double MinimumFare = 5.0;      //total fare
+                double totalFare = this.cabInvoiceGenerator.CalculateFare(distance, time);  //call method and passing value
+                Assert.AreEqual(MinimumFare, totalFare); // check equal or not
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        /* UC2:- Invoice generator should now take in multiple rides,and Calculate Aggregate total for all.
+         */
+        [Test]
+        public void GivenDistanceAndTimeForMultipleRides_ShouldReturnAggregateFare() // Method to Calculate Aggregate Fare Of Multiple Rides
+        {
+            try
+            {
+
+                Rides[] ride = { new Rides(4.0, 5.0), new Rides(3.0, 5.0) }; // store multiple ride rideDistance, Ridetime
+                double aggregateFare = this.cabInvoiceGenerator.GetMultipleRideFare(ride); //call GetMultipleRideFare method and calculat fare
+                Assert.AreEqual(40.0, aggregateFare);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }
