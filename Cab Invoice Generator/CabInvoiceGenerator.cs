@@ -52,6 +52,10 @@ namespace Cab_Invoice_Generator
 
             return new InvoiceSummary(rides.Length, totalRidesFare);//return value
         }
+        public void MapRidesToUser(string userID, Rides[] rides) => RideRepository.AddRides(userID, rides); //create MapRidesToUser method
+
+        public InvoiceSummary GetInvoiceSummary(string userID) => this.CalculateFare(RideRepository.GetRides(userID)); //create method GetInvoiceSummary
+
 
         public static void Main(string[] args) //Main method
         {
